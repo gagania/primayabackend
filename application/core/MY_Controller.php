@@ -12,9 +12,7 @@ class MY_Controller extends CI_Controller {
                                 'util'=>'Utilitas');
     protected $menuCode = array('default'=>'DEFAULT',
                                 'custom'=>'CUSTOM');
-    protected $gender = array('L'=>'Laki-laki','P'=>'Perempuan');
-    protected $relation = array('p'=>'Pribadi','a'=>'Anak');
-    protected $orderStatus = array('new'=>'New','reschedule'=>'Reschedule','complete'=>'Complete');
+    protected $orderStatus = array('new'=>'New','complete'=>'Complete');
         
     public function __construct() {
         parent::__construct();
@@ -404,81 +402,6 @@ class MY_Controller extends CI_Controller {
                             foreach($childLevel as $rowChildLevel => $valueChildLevel) {
                                 $temp[$row]['child'][$rowChild]['child'][] = $valueChildLevel;
                                 $childLevel2 = $this->Menu_Model->getLeftMenu($valueChildLevel['id'],'left',$type,'menu_order ASC');
-                                if ($childLevel2) {
-                                    foreach($childLevel2 as $rowChildLevel2 => $valueChildLevel2) {
-                                        $temp[$row]['child'][$rowChild]['child'][$rowChildLevel]['child'][] = $valueChildLevel2;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return $temp;
-    }
-    
-    function getAllMenuWebFeedback($ctgr,$type = 'backend',$order= '') {
-        if (is_array($type)) { 
-            $type = implode("','",$type);
-            
-        } 
-        $type = "'".$type."'";
-        $result = $this->Menu_Model->getLeftforFeedbackMenu(0,$ctgr,$type,$order);
-        $temp = array();
-        if (count($result)) {
-            foreach($result as $row => $value) {
-                //get child
-                
-                $temp[] = $value;
-//                $temp[] = $this->getChildNew($value,$ctgr,$type,$module,$row);
-                //check if there is a child
-                $child = $this->Menu_Model->getLeftforFeedbackMenu($value['id'],'left',$type,'menu_order ASC');
-                if (count($child)) {
-                    foreach($child as $rowChild => $valueChild) {
-                        $temp[$row]['child'][] = $valueChild;
-                        $childLevel = $this->Menu_Model->getLeftforFeedbackMenu($valueChild['id'],'left',$type,'menu_order ASC');
-                        if ($childLevel) {
-                            foreach($childLevel as $rowChildLevel => $valueChildLevel) {
-                                $temp[$row]['child'][$rowChild]['child'][] = $valueChildLevel;
-                                $childLevel2 = $this->Menu_Model->getLeftforFeedbackMenu($valueChildLevel['id'],'left',$type,'menu_order ASC');
-                                if ($childLevel2) {
-                                    foreach($childLevel2 as $rowChildLevel2 => $valueChildLevel2) {
-                                        $temp[$row]['child'][$rowChild]['child'][$rowChildLevel]['child'][] = $valueChildLevel2;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return $temp;
-    }
-    function getAllMenuWebGreen($ctgr,$type = 'backend',$order= '') {
-        if (is_array($type)) { 
-            $type = implode("','",$type);
-            
-        } 
-        $type = "'".$type."'";
-        $result = $this->Menu_Model->getLeftforGreenMenu(0,$ctgr,$type,$order);
-        $temp = array();
-        if (count($result)) {
-            foreach($result as $row => $value) {
-                //get child
-                
-                $temp[] = $value;
-//                $temp[] = $this->getChildNew($value,$ctgr,$type,$module,$row);
-                //check if there is a child
-                $child = $this->Menu_Model->getLeftforGreenMenu($value['id'],'left',$type,'menu_order ASC');
-                if (count($child)) {
-                    foreach($child as $rowChild => $valueChild) {
-                        $temp[$row]['child'][] = $valueChild;
-                        $childLevel = $this->Menu_Model->getLeftforGreenMenu($valueChild['id'],'left',$type,'menu_order ASC');
-                        if ($childLevel) {
-                            foreach($childLevel as $rowChildLevel => $valueChildLevel) {
-                                $temp[$row]['child'][$rowChild]['child'][] = $valueChildLevel;
-                                $childLevel2 = $this->Menu_Model->getLeftforGreenMenu($valueChildLevel['id'],'left',$type,'menu_order ASC');
                                 if ($childLevel2) {
                                     foreach($childLevel2 as $rowChildLevel2 => $valueChildLevel2) {
                                         $temp[$row]['child'][$rowChild]['child'][$rowChildLevel]['child'][] = $valueChildLevel2;
